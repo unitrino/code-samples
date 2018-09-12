@@ -24,18 +24,6 @@ class CreateUserViewSet(mixins.CreateModelMixin, generics.GenericAPIView):
             return Response("Password not set", status=status.HTTP_400_BAD_REQUEST)
 
 
-class UserAuthentication(APIView):
-    def post(self, request):
-        password = request.data.get('password')
-        username = request.data.get('username')
-
-        user = authenticate(username=username, password=password)
-        if not user:
-            return Response({"error": "Login failed"}, status=status.HTTP_401_UNAUTHORIZED)
-
-        return Response(CuttedUserSerializer(user).data)
-
-
 class UserViewSet(mixins.RetrieveModelMixin,
                   generics.GenericAPIView):
     queryset = User.objects.all()
